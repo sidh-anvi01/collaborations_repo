@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f8f8f2">
+    <meta name="description" content="Make room for your best work. Orbit keeps your projects, plans, and team moving together.">
+    <title>Orbit — Make room for your best work</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --ink: #17251e;
+            --muted: #68756d;
+            --paper: #f8f8f2;
+            --green: #c9f36b;
+            --green-dark: #91c43f;
+            --line: #e6e9df;
+            --white: #fff;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            -webkit-font-smoothing: antialiased;
+        }
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; }
+        .container { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+        .site-header { position: relative; z-index: 2; }
+        .nav {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--line);
+        }
+        .brand { display: inline-flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 800; letter-spacing: -1px; }
+        .brand-mark {
+            width: 30px; height: 30px; display: grid; place-items: center;
+            border-radius: 10px; background: var(--green); color: var(--ink);
+        }
+        .brand-mark svg { width: 18px; height: 18px; }
+        .nav-links { display: flex; align-items: center; gap: 34px; color: #536057; font-size: 14px; font-weight: 600; }
+        .nav-links a:hover, .text-link:hover { color: #527822; }
+        .nav-actions { display: flex; align-items: center; gap: 20px; font-size: 14px; font-weight: 650; }
+        .nav-login { color: #536057; }
+        .button {
+            min-height: 48px; display: inline-flex; align-items: center; justify-content: center;
+            gap: 9px; padding: 0 21px; border: 0; border-radius: 999px;
+            background: var(--ink); color: white; font-size: 14px; font-weight: 700;
+            transition: transform .2s ease, background-color .2s ease;
+        }
+        .button:hover { transform: translateY(-2px); background: #2b4034; }
+        .button-light { background: var(--green); color: var(--ink); }
+        .button-light:hover { background: #d5f98c; }
+        .menu-toggle { display: none; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 50%; background: transparent; color: var(--ink); }
+
+        .hero { padding: 72px 0 68px; overflow: hidden; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 48px; }
+        .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #52634f; font-size: 12px; font-weight: 750; letter-spacing: 1.3px; text-transform: uppercase; }
+        .eyebrow-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-dark); }
+        h1 { max-width: 560px; margin: 20px 0 18px; font-size: clamp(48px, 6vw, 76px); line-height: .99; letter-spacing: -5px; }
+        .hero-copy { max-width: 440px; margin: 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
+        .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 30px; }
+        .text-link { color: #425247; font-size: 14px; font-weight: 700; }
+        .text-link span { margin-left: 4px; }
+        .social-proof { display: flex; align-items: center; gap: 13px; margin-top: 40px; }
+        .avatars { display: flex; padding-left: 5px; }
+        .avatar {
+            width: 31px; height: 31px; display: grid; place-items: center; margin-left: -5px;
+            border: 2px solid var(--paper); border-radius: 50%; background: #d8a887; color: #44352c; font-size: 10px; font-weight: 800;
+        }
+        .avatar:nth-child(2) { background: #c1d4bc; }
+        .avatar:nth-child(3) { background: #e7c76d; }
+        .avatar:nth-child(4) { background: #b9c9e1; }
+        .proof-copy { color: var(--muted); font-size: 12px; line-height: 1.5; }
+        .proof-copy strong { color: var(--ink); }
+
+        .product-wrap { position: relative; padding: 20px 10px 20px 25px; }
+        .product-glow {
+            position: absolute; inset: 2% -4% 0 5%; z-index: -1;
+            border-radius: 48% 52% 42% 58% / 50% 40% 60% 50%;
+            background: #e9f3d8; transform: rotate(-8deg);
+        }
+        .product-card {
+            padding: 19px; border: 1px solid rgba(23, 37, 30, .08); border-radius: 20px;
+            background: var(--white); box-shadow: 0 24px 65px rgba(32, 53, 36, .12);
+            transform: rotate(1.5deg);
+        }
+        .app-top { display: flex; align-items: center; justify-content: space-between; padding: 2px 1px 17px; border-bottom: 1px solid #edf0e9; }
+        .app-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; }
+        .app-mini-mark { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 7px; background: var(--green); }
+        .app-mini-mark svg { width: 13px; height: 13px; }
+        .app-user { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 50%; background: #f1d1b9; color: #674934; font-size: 9px; font-weight: 800; }
+        .app-greeting { margin: 21px 0 5px; font-size: 19px; font-weight: 780; letter-spacing: -.6px; }
+        .app-subtitle { margin: 0; color: #829087; font-size: 11px; }
+        .progress-card { margin-top: 19px; padding: 15px; border-radius: 13px; background: #f7f9f3; }
+        .progress-heading { display: flex; justify-content: space-between; color: #506055; font-size: 10px; font-weight: 700; }
+        .progress-heading strong { color: var(--ink); }
+        .progress-track { height: 7px; margin-top: 11px; overflow: hidden; border-radius: 10px; background: #e5eadf; }
+        .progress-fill { width: 68%; height: 100%; border-radius: inherit; background: #a7d957; }
+        .tasks-heading { display: flex; justify-content: space-between; align-items: center; margin: 20px 1px 10px; font-size: 12px; font-weight: 800; }
+        .tasks-heading span { color: #809087; font-size: 10px; font-weight: 600; }
+        .task-row { display: flex; align-items: center; gap: 10px; padding: 11px 10px; border: 1px solid #edf0e9; border-radius: 10px; }
+        .task-row + .task-row { margin-top: 7px; }
+        .check { width: 15px; height: 15px; flex: 0 0 15px; border: 1.5px solid #c8d0c4; border-radius: 50%; }
+        .check.done { display: grid; place-items: center; border-color: var(--green-dark); background: var(--green); color: #30441e; font-size: 9px; }
+        .task-name { flex: 1; font-size: 10px; font-weight: 650; }
+        .task-time { color: #849087; font-size: 9px; }
+        .floating-note {
+            position: absolute; right: -13px; bottom: 3px; display: flex; align-items: center; gap: 10px;
+            padding: 12px 15px; border: 1px solid rgba(23, 37, 30, .06); border-radius: 13px;
+            background: white; box-shadow: 0 12px 30px rgba(32, 53, 36, .12);
+        }
+        .note-icon { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 9px; background: #f2f7e8; color: #739d37; }
+        .note-icon svg { width: 16px; height: 16px; }
+        .note-text { font-size: 10px; font-weight: 800; }
+        .note-text small { display: block; margin-top: 3px; color: #839087; font-size: 9px; font-weight: 500; }
+
+        .features { padding: 24px 0 78px; }
+        .feature-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; padding: 27px 30px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255, 255, 255, .55); }
+        .feature { display: flex; align-items: center; gap: 14px; }
+        .feature-icon { width: 42px; height: 42px; flex: 0 0 42px; display: grid; place-items: center; border-radius: 13px; background: #eef5e2; color: #648a35; }
+        .feature-icon svg { width: 20px; height: 20px; }
+        .feature strong { display: block; font-size: 13px; }
+        .feature span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; }
+        .gallery-section { padding: 0 0 84px; }
+        .gallery-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 26px; }
+        .gallery-heading h2 { margin: 10px 0 0; font-size: clamp(29px, 4vw, 42px); letter-spacing: -2px; line-height: 1.05; }
+        .gallery-heading p { max-width: 330px; margin: 0 0 3px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+        .gallery-card { min-width: 0; }
+        .gallery-art { overflow: hidden; border-radius: 16px; aspect-ratio: 1.18; }
+        .gallery-art svg { display: block; width: 100%; height: 100%; transition: transform .35s ease; }
+        .gallery-card:hover .gallery-art svg { transform: scale(1.04); }
+        .gallery-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 2px 0; }
+        .gallery-meta strong { font-size: 14px; }
+        .gallery-meta span { color: var(--muted); font-size: 11px; }
+        .footer { padding: 0 0 24px; color: #819087; font-size: 11px; text-align: center; }
+
+        @media (min-width: 1200px) { .hero { padding-top: 88px; padding-bottom: 82px; } }
+        @media (max-width: 760px) {
+            .container { width: min(100% - 36px, 540px); }
+            .nav { min-height: 68px; }
+            .nav-links {
+                position: absolute; top: 61px; right: 0; left: 0; display: none; align-items: stretch; gap: 0;
+                padding: 10px 18px; border: 1px solid var(--line); border-radius: 16px; background: white;
+                box-shadow: 0 16px 35px rgba(32, 53, 36, .1);
+            }
+            .nav-links.is-open { display: flex; flex-direction: column; }
+            .nav-links a { padding: 13px 4px; }
+            .nav-actions { gap: 12px; }
+            .nav-login { display: none; }
+            .nav-actions .button { min-height: 40px; padding: 0 15px; font-size: 12px; }
+            .menu-toggle { display: grid; place-items: center; }
+            .menu-toggle svg { width: 19px; height: 19px; }
+            .hero { padding: 49px 0 41px; }
+            .hero-grid { grid-template-columns: 1fr; gap: 38px; }
+            h1 { max-width: 470px; margin-top: 16px; font-size: clamp(46px, 12vw, 66px); letter-spacing: -3.8px; }
+            .hero-copy { font-size: 15px; }
+            .hero-actions { gap: 14px; margin-top: 23px; }
+            .social-proof { margin-top: 27px; }
+            .product-wrap { width: min(100%, 470px); margin: 0 auto; padding: 10px 7px 18px 13px; }
+            .product-card { padding: 16px; border-radius: 17px; transform: rotate(.6deg); }
+            .floating-note { right: -3px; bottom: 0; }
+            .features { padding: 14px 0 48px; }
+            .feature-strip { grid-template-columns: 1fr; gap: 19px; padding: 22px; }
+            .gallery-section { padding-bottom: 56px; }
+            .gallery-heading { align-items: flex-start; flex-direction: column; gap: 11px; margin-bottom: 20px; }
+            .gallery-grid { grid-template-columns: 1fr; gap: 23px; }
+            .gallery-art { aspect-ratio: 1.22; }
+        }
+        @media (max-width: 390px) {
+            .container { width: calc(100% - 28px); }
+            .brand { font-size: 19px; }
+            .nav-actions { gap: 8px; }
+            .nav-actions .button { padding: 0 12px; }
+            h1 { font-size: 45px; }
+            .hero-actions { align-items: flex-start; flex-direction: column; }
+            .product-card { padding: 13px; }
+            .floating-note { right: -2px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav container" aria-label="Main navigation">
+            <a class="brand" href="#" aria-label="Orbit home">
+                <span class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="2"/><path d="M3 14c3-5 9-8 17-7M16 4l4 3-1 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                orbit
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
+                <a href="#gallery">Gallery</a>
+            </div>
+            <div class="nav-actions">
+                <a class="nav-login" href="#login">Log in</a>
+                <a class="button button-light" href="#get-started">Get started <span aria-hidden="true">↗</span></a>
+                <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="get-started">
+            <div class="container hero-grid">
+                <div>
+                    <div class="eyebrow"><span class="eyebrow-dot"></span> Your work, in a better orbit</div>
+                    <h1>Make room for your best work.</h1>
+                    <p class="hero-copy">Bring your projects, people, and plans together. Orbit gives your team the clarity to focus on what matters next.</p>
+                    <div class="hero-actions">
+                        <a class="button" href="#signup">Start for free <span aria-hidden="true">↗</span></a>
+                        <a class="text-link" href="#how-it-works">See how it works <span aria-hidden="true">→</span></a>
+                    </div>
+                    <div class="social-proof" id="stories">
+                        <div class="avatars" aria-hidden="true">
+                            <span class="avatar">JM</span><span class="avatar">AK</span><span class="avatar">RL</span><span class="avatar">TS</span>
+                        </div>
+                        <div class="proof-copy"><strong>Loved by 12,000+ teams</strong><br>doing their best work every day</div>
+                    </div>
+                </div>
+                <div class="product-wrap" id="how-it-works" aria-label="Preview of the Orbit project dashboard">
+                    <div class="product-glow" aria-hidden="true"></div>
+                    <div class="product-card">
+                        <div class="app-top">
+                            <div class="app-title"><span class="app-mini-mark" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="2"/><path d="M3 14c3-5 9-8 17-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                            </span> Orbit workspace</div>
+                            <span class="app-user" aria-label="Account: Alex">AL</span>
+                        </div>
+                        <p class="app-greeting">Good morning, Alex <span aria-hidden="true">✦</span></p>
+                        <p class="app-subtitle">Here's what's moving your team forward.</p>
+                        <div class="progress-card">
+                            <div class="progress-heading"><strong>Website refresh</strong><span>68% complete</span></div>
+                            <div class="progress-track" role="progressbar" aria-label="Website refresh progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="68"><div class="progress-fill"></div></div>
+                        </div>
+                        <div class="tasks-heading">Up next <span>3 tasks</span></div>
+                        <div class="task-row"><span class="check done" aria-hidden="true">✓</span><span class="task-name">Share the moodboard</span><span class="task-time">Done</span></div>
+                        <div class="task-row"><span class="check" aria-hidden="true"></span><span class="task-name">Review homepage concepts</span><span class="task-time">10:30</span></div>
+                        <div class="task-row"><span class="check" aria-hidden="true"></span><span class="task-name">Team creative sync</span><span class="task-time">2:00</span></div>
+                    </div>
+                    <div class="floating-note">
+                        <span class="note-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7 10 17l-5-5"/><path d="M20 12v5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg></span>
+                        <span class="note-text">You're right on track<small>Team momentum is looking good</small></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features container" id="features" aria-label="Orbit benefits">
+            <div class="feature-strip">
+                <div class="feature">
+                    <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+                    <div><strong>Less busywork</strong><span>Keep the day moving, simply.</span></div>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+                    <div><strong>Better together</strong><span>One clear view for every teammate.</span></div>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-1.9-5.8L4 11l6.1-2.2L12 3Z"/><path d="m19 14 1.2 2.8L23 18l-2.8 1.2L19 22l-1.2-2.8L15 18l2.8-1.2L19 14Z"/></svg></span>
+                    <div><strong>Room to do great work</strong><span>Make space for your next big idea.</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-section container" id="gallery" aria-labelledby="gallery-title">
+            <div class="gallery-heading">
+                <div>
+                    <div class="eyebrow"><span class="eyebrow-dot"></span> Made with Orbit</div>
+                    <h2 id="gallery-title">A little inspiration<br>for your next big thing.</h2>
+                </div>
+                <p>Good work takes all kinds of shapes. Here's a peek at what teams are making together.</p>
+            </div>
+            <div class="gallery-grid">
+                <article class="gallery-card">
+                    <div class="gallery-art">
+                        <svg viewBox="0 0 440 360" role="img" aria-label="Green botanical branding artwork for Fieldnotes">
+                            <rect width="440" height="360" fill="#dce9c8"/>
+                            <circle cx="340" cy="94" r="76" fill="#f4edcf"/>
+                            <path d="M0 275c87-35 139-17 205 1 74 20 148-11 235-38v122H0Z" fill="#b5ca91"/>
+                            <path d="M155 279c-3-77 14-132 53-178M184 226c-36-27-56-55-64-85m99 37c39-13 65-36 80-66m-108 114c37 4 68-7 93-32" fill="none" stroke="#435b3c" stroke-width="7" stroke-linecap="round"/>
+                            <ellipse cx="117" cy="128" rx="31" ry="13" transform="rotate(40 117 128)" fill="#78966b"/>
+                            <ellipse cx="289" cy="102" rx="34" ry="14" transform="rotate(-39 289 102)" fill="#78966b"/>
+                            <ellipse cx="257" cy="194" rx="32" ry="14" transform="rotate(-37 257 194)" fill="#66875b"/>
+                            <ellipse cx="164" cy="209" rx="32" ry="13" transform="rotate(28 164 209)" fill="#66875b"/>
+                            <rect x="25" y="26" width="142" height="42" rx="21" fill="#f8f8f2"/>
+                            <text x="48" y="53" fill="#344b35" font-family="Georgia,serif" font-size="20" font-weight="bold">fieldnotes</text>
+                        </svg>
+                    </div>
+                    <div class="gallery-meta"><strong>Fieldnotes</strong><span>Brand identity</span></div>
+                </article>
+                <article class="gallery-card">
+                    <div class="gallery-art">
+                        <svg viewBox="0 0 440 360" role="img" aria-label="Soft lavender product design and mobile app concept">
+                            <rect width="440" height="360" fill="#e7e2f5"/>
+                            <circle cx="362" cy="67" r="93" fill="#d2c9eb"/>
+                            <path d="M0 296c94-39 154-38 232-4 67 29 135 18 208-17v85H0Z" fill="#c5b8e2"/>
+                            <rect x="145" y="49" width="150" height="270" rx="25" fill="#fbfaf8" transform="rotate(-6 145 49)"/>
+                            <rect x="158" y="70" width="124" height="225" rx="16" fill="#f2eff8" transform="rotate(-6 158 70)"/>
+                            <circle cx="218" cy="142" r="43" fill="#c4b6e5"/>
+                            <path d="M204 143c0-17 26-18 26 0 0 14-13 22-13 22s-13-8-13-22Z" fill="#fff"/>
+                            <rect x="180" y="211" width="77" height="9" rx="4.5" fill="#9381c5" transform="rotate(-6 180 211)"/>
+                            <rect x="186" y="231" width="61" height="6" rx="3" fill="#d4cce6" transform="rotate(-6 186 231)"/>
+                            <rect x="190" y="253" width="54" height="19" rx="9.5" fill="#a997d5" transform="rotate(-6 190 253)"/>
+                            <path d="m77 109 6 15 15 6-15 6-6 15-6-15-15-6 15-6 6-15Z" fill="#fbfaf8"/>
+                            <circle cx="339" cy="245" r="18" fill="#f4dba8"/>
+                        </svg>
+                    </div>
+                    <div class="gallery-meta"><strong>Soft landing</strong><span>Product design</span></div>
+                </article>
+                <article class="gallery-card">
+                    <div class="gallery-art">
+                        <svg viewBox="0 0 440 360" role="img" aria-label="Colorful Sunday Market seasonal campaign artwork">
+                            <rect width="440" height="360" fill="#f4c2a6"/>
+                            <path d="M0 0h440v100c-65 41-131 39-220 0C142 64 69 62 0 99Z" fill="#f8e4bb"/>
+                            <rect x="34" y="38" width="170" height="43" rx="21" fill="#fff8e8"/>
+                            <text x="59" y="67" fill="#813f32" font-family="Georgia,serif" font-size="20" font-weight="bold">SUNDAY MARKET</text>
+                            <circle cx="220" cy="220" r="91" fill="#da7355"/>
+                            <circle cx="220" cy="220" r="72" fill="#f7d38c"/>
+                            <path d="M218 273c-30-31-38-62-19-91 11-17 30-30 45-52 22 41 48 72 35 112-8 24-31 39-61 31Z" fill="#739064"/>
+                            <path d="M220 272c-1-45 9-82 24-116" fill="none" stroke="#405c3c" stroke-width="7" stroke-linecap="round"/>
+                            <path d="M224 221c-26-22-42-24-58-18 11 19 28 29 55 27m16 10c26-18 42-18 56-8-13 18-30 25-56 19" fill="#8fa67c"/>
+                            <path d="M72 214c15-24 36-24 50 0l-25 42Zm224 87 17-35 18 35Z" fill="#fff1d6"/>
+                            <circle cx="99" cy="272" r="14" fill="#d9896c"/>
+                            <circle cx="335" cy="186" r="16" fill="#e7a35e"/>
+                        </svg>
+                    </div>
+                    <div class="gallery-meta"><strong>Sunday Market</strong><span>Campaign</span></div>
+                </article>
+            </div>
+        </section>
+    </main>
+    <footer class="footer container">© 2025 Orbit. Make room for what matters.</footer>
+    <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const navigation = document.querySelector("#nav-links");
+
+        menuToggle.addEventListener("click", () => {
+            const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+            menuToggle.setAttribute("aria-expanded", String(!isOpen));
+            menuToggle.setAttribute("aria-label", isOpen ? "Open navigation menu" : "Close navigation menu");
+            navigation.classList.toggle("is-open", !isOpen);
+        });
+
+        navigation.addEventListener("click", (event) => {
+            if (event.target instanceof HTMLAnchorElement) {
+                navigation.classList.remove("is-open");
+                menuToggle.setAttribute("aria-expanded", "false");
+                menuToggle.setAttribute("aria-label", "Open navigation menu");
+            }
+        });
+    </script>
+</body>
+</html>
